@@ -34,8 +34,22 @@ const getAllTasks = async (req, res) => {
   }
 };
 
-const getSingleTask = (req, res) => {
-  return res.send("Get single task");
+const getSingleTask = async (req, res) => {
+  try {
+    const { id: taskId } = req.params;
+    const task = await Task.findOne({ _id: taskId });
+    if (!task)
+      return res
+        .status(404)
+        .json({ success: false, message: "Task not found" });
+
+    return res.status(200).json({ success: true, task });
+  } catch (error) {
+    console.log(error);
+    return res
+      .status(500)
+      .json({ success: false, message: "Internal Server Error" });
+  }
 };
 
 const updateTask = (req, res) => {
