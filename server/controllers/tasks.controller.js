@@ -1,9 +1,5 @@
 const Task = require("../models/Task.model");
 
-const getAllTasks = (req, res) => {
-  return res.send("Get all tasks");
-};
-
 const createTask = async (req, res) => {
   const { name, completed } = req.body;
   if (!name)
@@ -18,6 +14,18 @@ const createTask = async (req, res) => {
     return res
       .status(201)
       .json({ success: true, message: "Successfully created", task: newTask });
+  } catch (error) {
+    console.log(error);
+    return res
+      .status(500)
+      .json({ success: false, message: "Internal Server Error" });
+  }
+};
+
+const getAllTasks = async (req, res) => {
+  try {
+    const tasks = await Task.find({});
+    return res.status(200).json({ success: true, tasks });
   } catch (error) {
     console.log(error);
     return res
