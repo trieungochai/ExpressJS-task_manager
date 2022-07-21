@@ -2,9 +2,9 @@
   "name": "task-manager",
   "version": "1.0.0",
   "description": "",
-  "main": "server.js",
+  "main": "index.js",
   "scripts": {
-    "server": "nodemon server"
+    "server": "nodemon index.js"
   },
   "author": "",
   "license": "ISC",
