@@ -56,8 +56,23 @@ const updateTask = (req, res) => {
   return res.send("Update task");
 };
 
-const deleteTask = (req, res) => {
-  return res.send("Delete task");
+const deleteTask = async (req, res) => {
+  try {
+    const { id: taskId } = req.params;
+    const deletedTask = await Task.findByIdAndDelete({ _id: taskId });
+    if (!deletedTask) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Task not found" });
+    }
+
+    return res.status(200).json({ success: true, deletedTask });
+  } catch (error) {
+    console.log(error);
+    return res
+      .status(500)
+      .json({ success: false, message: "Internal Server Error" });
+  }
 };
 
 module.exports = {
